@@ -16,7 +16,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-    origin: 'https://vitereactlearning.netlify.app', // Your frontend URL
+    origin: ['https://vitereactlearning.netlify.app', 'http://localhost:5173'], // Your frontend URL
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed HTTP methods
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
 };
@@ -76,6 +76,7 @@ app.post('/login', async (req, res) => {
 
 // Use the PORT from .env file
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
