@@ -24,6 +24,8 @@ const corsOptions = {
 app.use(cors(corsOptions)); // Use the CORS options
 app.use(express.json());
 
+console.log('Mongo URI:', process.env.MONGO_URI); // Add this line to log the URI
+
 // Use the MONGO_URI from .env file
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
