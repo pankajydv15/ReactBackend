@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
-require('dotenv').config();  // Load .env file
+require('dotenv').config(); // Load .env file
 
 const userSchema = new mongoose.Schema({
     name: String,
@@ -13,7 +13,15 @@ const userSchema = new mongoose.Schema({
 const User = new mongoose.model('User', userSchema);
 
 const app = express();
-app.use(cors());
+
+// CORS configuration
+const corsOptions = {
+    origin: 'https://vitereactlearning.netlify.app', // Your frontend URL
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed HTTP methods
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+};
+
+app.use(cors(corsOptions)); // Use the CORS options
 app.use(express.json());
 
 // Use the MONGO_URI from .env file
