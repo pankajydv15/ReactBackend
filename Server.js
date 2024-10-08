@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const bcrypt = require('bcryptjs');  // Import bcryptjs
-const PORT = process.env.PORT || 5000
+const bcrypt = require('bcryptjs');
+require('dotenv').config();  // Load .env file
 
 const userSchema = new mongoose.Schema({
     name: String,
@@ -16,7 +16,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/ReactLearning', {
+// Use the MONGO_URI from .env file
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -25,13 +26,12 @@ mongoose.connect('mongodb://127.0.0.1:27017/ReactLearning', {
 app.post('/signup', async (req, res) => {
     const { name, email, password } = req.body;
     try {
-        // Hash the password before saving it
         const hashedPassword = await bcrypt.hash(password, 10);
         
         const newUser = new User({
             name,
             email,
-            password: hashedPassword  // Save the hashed password
+            password: hashedPassword
         });
         await newUser.save();
         res.status(201).json({ message: "User Registered Successfully" });
@@ -49,7 +49,6 @@ app.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'User not found' });
         }
 
-        // Compare the plain text password with the hashed password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid Password' });
@@ -61,6 +60,8 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.listen(5000, () => {
-    console.log(`Server is Running at ${PORT}`);
+// Use the PORT from .env file
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
