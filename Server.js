@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');  // Import bcryptjs
+const PORT = process.env.PORT || 5000
 
 const userSchema = new mongoose.Schema({
     name: String,
@@ -61,5 +62,5 @@ app.post('/login', async (req, res) => {
 });
 
 app.listen(5000, () => {
-    console.log("Server is running on port 5000");
+    console.log(`Server is Running at ${PORT}`);
 });
