@@ -50,8 +50,9 @@ app.post('/signup', async (req, res) => {
         await newUser.save();
         res.status(201).json({ message: "User Registered Successfully" });
     } catch (error) {
-        res.status(500).json({ message: "Failed to Register user" });
-    }
+        console.error("Error during signup: ", error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
 });
 
 // Login route with password comparison
